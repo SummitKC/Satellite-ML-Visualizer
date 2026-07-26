@@ -3,8 +3,6 @@
 import numpy as np
 from sklearn import preprocessing, cluster
 
-
-
 def cluster_satellites(features: np.ndarray, num_clusters: int = 5) -> np.ndarray:
     """Assign each satellite a cluster label based on its orbital parameters."""
 

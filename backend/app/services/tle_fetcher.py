@@ -1,7 +1,4 @@
-"""Fetches and parses TLE data from CelesTrak.
-
-Step 1 of Initial-configs.md: implement the two functions below.
-"""
+"""Fetches and parses TLE data from CelesTrak."""
 
 import logging
 import math

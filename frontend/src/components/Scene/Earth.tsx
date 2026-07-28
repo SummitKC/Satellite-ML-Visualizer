@@ -7,6 +7,9 @@
  *   <meshStandardMaterial map={colorMap} />
  */
 export function Earth() {
+
+  const colorMap =  {}
+
   return (
     <mesh>
       <sphereGeometry args={[1, 64, 64]} />

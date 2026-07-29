@@ -1,19 +1,22 @@
-/**
- * Placeholder Earth mesh.
- *
- * TODO (Step 3): replace the basic material with a textured one using the
- * NASA Blue Marble map, e.g.:
- *   const colorMap = useLoader(TextureLoader, "/textures/earth_daymap.jpg");
- *   <meshStandardMaterial map={colorMap} />
- */
-export function Earth() {
+import { useLoader, useThree } from "@react-three/fiber";
+import { TextureLoader } from "three";
+import vertexShader from "../shaders/vertex.glsl?raw";
+import fragmentShader from "../shaders/fragment.glsl?raw";
+import earthDayMap from "../../textures/8k_earth_daymap.jpg";
 
-  const colorMap =  {}
+export function Earth() {
+  const dayTexture = useLoader(TextureLoader, earthDayMap);
+  const { gl } = useThree();
+  dayTexture.anisotropy = gl.capabilities.getMaxAnisotropy();
 
   return (
     <mesh>
       <sphereGeometry args={[1, 64, 64]} />
-      <meshStandardMaterial color="#2a4d69" wireframe />
+      <shaderMaterial
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={{ dayTexture: { value: dayTexture } }}
+      />
     </mesh>
   );
 }

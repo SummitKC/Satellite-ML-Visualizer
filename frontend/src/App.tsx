@@ -19,7 +19,7 @@ export function App() {
         {loading && <div className="overlay-message">Loading satellites...</div>}
         {error && <div className="overlay-message">Error: {error}</div>}
         <Canvas camera={{ position: [0, 0, 3] }}>
-          <ambientLight intensity={0.5} />
+          <ambientLight intensity={1.3} />
           <pointLight position={[5, 5, 5]} />
           <Earth />
           <SatelliteField satellites={satellites} onSelect={setSelected} />
@@ -30,3 +30,4 @@ export function App() {
     </div>
   );
 }
+

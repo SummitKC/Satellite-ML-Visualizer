@@ -17,7 +17,7 @@ void main() {
 
   //Get the dor product
   float dotNL = dot(normal, lightDir);
-  float transitionFactor = clamp(dotNL, 0.0, 1.0);
+  float transitionFactor = smoothstep(-0.15, 0.15, dotNL);
 
   vec3 finalColor = mix(nightColor, dayColor, transitionFactor);
 

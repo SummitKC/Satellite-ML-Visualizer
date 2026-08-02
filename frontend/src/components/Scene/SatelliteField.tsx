@@ -25,7 +25,7 @@ export function SatelliteField({ satellites, onSelect }: SatelliteFieldProps) {
           position={[0, 0, 0]}
           onClick={() => onSelect(satellite)}
         >
-          <sphereGeometry args={[0.01, 8, 8]} />
+          <sphereGeometry args={[2.01, 8, 8]} />
           <meshBasicMaterial
             color={CLUSTER_COLORS[(satellite.cluster_id ?? 0) % CLUSTER_COLORS.length]}
           />

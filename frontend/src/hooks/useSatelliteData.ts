@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import type { Satellite } from "../types/satellite";
+import { mockSatellites } from "../mocks/mockSatellites";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api";
+
+// TODO: flip back to false once the backend /satellites endpoint is running.
+const USE_MOCK_DATA = true;
 
 interface UseSatelliteDataResult {
   satellites: Satellite[];
@@ -21,6 +25,12 @@ export function useSatelliteData(): UseSatelliteDataResult {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (USE_MOCK_DATA) {
+      setSatellites(mockSatellites);
+      setLoading(false);
+      return;
+    }
+
     let cancelled = false;
 
     fetch(`${API_BASE_URL}/satellites`)

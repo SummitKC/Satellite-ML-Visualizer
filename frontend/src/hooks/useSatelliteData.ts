@@ -5,7 +5,7 @@ import { mockSatellites } from "../mocks/mockSatellites";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api";
 
 // TODO: flip back to false once the backend /satellites endpoint is running.
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 interface UseSatelliteDataResult {
   satellites: Satellite[];
@@ -13,12 +13,6 @@ interface UseSatelliteDataResult {
   error: string | null;
 }
 
-/**
- * Fetches the satellite list (with orbital parameters + cluster IDs) from the backend.
- *
- * TODO (Step 4): once the backend /satellites endpoint returns real data, this hook
- * should be enough as-is - verify the shape matches `Satellite` in ../types/satellite.ts.
- */
 export function useSatelliteData(): UseSatelliteDataResult {
   const [satellites, setSatellites] = useState<Satellite[]>([]);
   const [loading, setLoading] = useState(true);

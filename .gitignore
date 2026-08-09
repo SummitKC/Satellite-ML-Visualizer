@@ -40,8 +40,18 @@ node_modules/
 .coverage
 htmlcov/
 
+# Image files
+*.png
+*.jpeg
+*.jpg
+
 # Other caches
 *.log
 *.sqlite3
 .cache/
 .ruff_cache/
+
+# Temporary files
+*.tmp
+docs/
+tle_hourly_data/

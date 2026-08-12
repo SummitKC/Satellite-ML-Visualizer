@@ -10,11 +10,43 @@ body,
 
 .app {
   display: grid;
-  grid-template-columns: 260px 1fr 260px;
+  grid-template-columns: 1fr 260px;
   height: 100%;
+  position:relative;
 }
 
-.sidebar,
+.top-bar {
+  position: fixed;   /* stays put even if page scrolls; use absolute if it should scroll with .app */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;        /* sits above the Canvas */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(13, 17, 23, 0.85); /* translucent so scene shows through slightly */
+  border-bottom: 1px solid #1c2530;
+}
+
+.top-bar header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.satellite-clusters {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bar-stats {
+  display: flex;
+  gap: 1rem;
+}
+
 .info-panel {
   padding: 1rem;
   background: #0d1117;
@@ -59,3 +91,4 @@ body,
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
 }
+

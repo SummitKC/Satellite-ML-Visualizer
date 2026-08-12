@@ -4,6 +4,7 @@ import { OrbitControls } from "@react-three/drei";
 import { Earth } from "./components/Scene/Earth";
 import { SatelliteField } from "./components/Scene/SatelliteField";
 import { Sidebar } from "./components/UI/Sidebar";
+import { TopBar } from "./components/UI/topBar";
 import { InfoPanel } from "./components/UI/InfoPanel";
 import { useSatelliteData } from "./hooks/useSatelliteData";
 import type { Satellite } from "./types/satellite";
@@ -14,7 +15,7 @@ export function App() {
 
   return (
     <div className="app">
-      <Sidebar totalSatellites={satellites.length} />
+      <TopBar totalSatellites={satellites.length} totalClusters={5} />
       <div className="scene-container">
         {loading && <div className="overlay-message">Loading satellites...</div>}
         {error && <div className="overlay-message">Error: {error}</div>}

@@ -3,7 +3,6 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Earth } from "./components/Scene/Earth";
 import { SatelliteField } from "./components/Scene/SatelliteField";
-import { Sidebar } from "./components/UI/Sidebar";
 import { TopBar } from "./components/UI/topBar";
 import { InfoPanel } from "./components/UI/InfoPanel";
 import { useSatelliteData } from "./hooks/useSatelliteData";
@@ -12,10 +11,22 @@ import type { Satellite } from "./types/satellite";
 export function App() {
   const { satellites, loading, error } = useSatelliteData();
   const [selected, setSelected] = useState<Satellite | null>(null);
+  const [selectedCluster, setSelectedCluster] = useState<number | null>(null);
+  const [infoPanelCollapsed, setInfoPanelCollapsed] = useState(false);
+
+  const visibleSatellites =
+    selectedCluster === null
+      ? satellites
+      : satellites.filter((s) => (s.cluster_id ?? 0) === selectedCluster);
 
   return (
-    <div className="app">
-      <TopBar totalSatellites={satellites.length} totalClusters={5} />
+    <div className={`app${infoPanelCollapsed ? " info-collapsed" : ""}`}>
+      <TopBar
+        totalSatellites={satellites.length}
+        totalClusters={5}
+        selectedCluster={selectedCluster}
+        onSelectCluster={setSelectedCluster}
+      />
       <div className="scene-container">
         {loading && <div className="overlay-message">Loading satellites...</div>}
         {error && <div className="overlay-message">Error: {error}</div>}
@@ -23,11 +34,15 @@ export function App() {
           <ambientLight intensity={1.3} />
           <pointLight position={[5, 5, 5]} />
           <Earth />
-          <SatelliteField satellites={satellites} onSelect={setSelected} />
+          <SatelliteField satellites={visibleSatellites} onSelect={setSelected} />
           <OrbitControls />
         </Canvas>
       </div>
-      <InfoPanel satellite={selected} />
+      <InfoPanel
+        satellite={selected}
+        collapsed={infoPanelCollapsed}
+        onToggleCollapse={() => setInfoPanelCollapsed((c) => !c)}
+      />
     </div>
   );
 }

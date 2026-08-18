@@ -12,7 +12,13 @@ body,
   display: grid;
   grid-template-columns: 1fr 260px;
   height: 100%;
-  position:relative;
+  position: relative;
+  --top-bar-height: 44px;
+  transition: grid-template-columns 0.2s ease;
+}
+
+.app.info-collapsed {
+  grid-template-columns: 1fr 36px;
 }
 
 .top-bar {
@@ -20,26 +26,62 @@ body,
   top: 0;
   left: 0;
   width: 100%;
+  height: var(--top-bar-height);
+  box-sizing: border-box;
   z-index: 10;        /* sits above the Canvas */
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.5rem 1rem;
-  background: rgba(13, 17, 23, 0.85); /* translucent so scene shows through slightly */
+  padding: 0 1rem;
+  background: rgba(13, 17, 23, 0.9); /* translucent so scene shows through slightly */
   border-bottom: 1px solid #1c2530;
 }
 
 .top-bar header {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
   width: 100%;
+}
+
+.top-bar h1 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .satellite-clusters {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cluster {
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.cluster:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cluster.active {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.cluster-shape {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .bar-stats {
@@ -47,16 +89,45 @@ body,
   gap: 1rem;
 }
 
+.bar-stats p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #a8b3bd;
+}
+
+
 .info-panel {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
   padding: 1rem;
+  padding-top: calc(var(--top-bar-height) + 1rem);
   background: #0d1117;
-  border-right: 1px solid #1c2530;
+  border-left: 1px solid #1c2530;
   overflow-y: auto;
 }
 
-.info-panel {
-  border-right: none;
-  border-left: 1px solid #1c2530;
+.info-panel-collapsed {
+  padding: 0;
+}
+
+.info-panel-toggle {
+  position: absolute;
+  top: calc(var(--top-bar-height) + 0.5rem);
+  left: 0.5rem;
+  background: none;
+  border: none;
+  color: #a8b3bd;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.info-panel-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
 .legend {
@@ -80,6 +151,8 @@ body,
 
 .scene-container {
   position: relative;
+  min-width: 0;
+  min-height: 0;
 }
 
 .overlay-message {

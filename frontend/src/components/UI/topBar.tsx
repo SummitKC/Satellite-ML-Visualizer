@@ -6,9 +6,10 @@ interface TopBarProps {
     totalClusters: number;
     selectedCluster: number | null;
     onSelectCluster: (cluster: number | null) => void;
+    onClear: () => void;
 }
 
-export function TopBar({ totalSatellites, totalClusters, selectedCluster, onSelectCluster }: TopBarProps) {
+export function TopBar({ totalSatellites, totalClusters, selectedCluster, onSelectCluster, onClear }: TopBarProps) {
   return (
     <div className="top-bar">
       <header>
@@ -33,6 +34,14 @@ export function TopBar({ totalSatellites, totalClusters, selectedCluster, onSele
             </li>
           ))}
         </ul>
+        <button
+          type="button"
+          className="top-bar-clear"
+          onClick={onClear}
+          title="Clear selection and show all satellites"
+        >
+          Clear
+        </button>
       </header>
     </div>
   );

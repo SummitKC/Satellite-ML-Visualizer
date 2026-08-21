@@ -4,16 +4,12 @@ import { Mesh } from "three";
 import type { Satellite } from "../../types/satellite";
 import { useFrame } from "@react-three/fiber";
 import { CLUSTER_COLORS } from "../../constants/clusterColors";
+import { getSatellitePosition } from "../../utils/satellitePosition";
 
 interface SatelliteFieldProps {
   satellites: Satellite[];
   onSelect: (satellite: Satellite) => void;
 }
-
-//Get scale factor to convert from kilometers to the scale used in the Three.js scene
-const earthRadius = 6371; 
-const threeEarthRadius = 2;
-const scaleFactor = threeEarthRadius / earthRadius;
 
 interface SatelliteMeshProps {
   sat: Satellite;
@@ -31,18 +27,9 @@ function SatelliteMesh({ sat, onSelect }: SatelliteMeshProps) {
   useFrame(() => {
     if (!meshRef.current) return;
 
-    //get current time, to get the current position of the satellite
-    const nowDate = new Date();
-    const positionAndVelocity = satellite.propagate(satrec, nowDate);
-    const positionEci = positionAndVelocity.position;
-
-    //get position vector and scale it to the Three.js scene
-    if (positionEci && positionEci !== true) {
-      const x = positionEci.x * scaleFactor;
-      const y = positionEci.y * scaleFactor;
-      const z = positionEci.z * scaleFactor;
-
-      meshRef.current.position.set(x, y, z);
+    const position = getSatellitePosition(satrec);
+    if (position) {
+      meshRef.current.position.set(position.x, position.y, position.z);
     }
   });
 

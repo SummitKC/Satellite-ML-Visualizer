@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { Earth } from "./components/Scene/Earth";
 import { SatelliteField } from "./components/Scene/SatelliteField";
+import { CameraFocus } from "./components/Scene/CameraFocus";
 import { TopBar } from "./components/UI/topBar";
 import { InfoPanel } from "./components/UI/InfoPanel";
 import { useSatelliteData } from "./hooks/useSatelliteData";
@@ -13,11 +15,32 @@ export function App() {
   const [selected, setSelected] = useState<Satellite | null>(null);
   const [selectedCluster, setSelectedCluster] = useState<number | null>(null);
   const [infoPanelCollapsed, setInfoPanelCollapsed] = useState(false);
+  const [searchedSatellite, setSearchedSatellite] = useState<Satellite | null>(null);
+  const [clearCount, setClearCount] = useState(0);
+  const controlsRef = useRef<OrbitControlsImpl>(null);
 
-  const visibleSatellites =
-    selectedCluster === null
+  const visibleSatellites = searchedSatellite
+    ? [searchedSatellite]
+    : selectedCluster === null
       ? satellites
       : satellites.filter((s) => (s.cluster_id ?? 0) === selectedCluster);
+
+  const handleSelectCluster = (cluster: number | null) => {
+    setSearchedSatellite(null);
+    setSelectedCluster(cluster);
+  };
+
+  const handleSearchSelect = (satellite: Satellite) => {
+    setSelected(satellite);
+    setSearchedSatellite(satellite);
+  };
+
+  const handleClear = () => {
+    setSelected(null);
+    setSelectedCluster(null);
+    setSearchedSatellite(null);
+    setClearCount((c) => c + 1);
+  };
 
   return (
     <div className={`app${infoPanelCollapsed ? " info-collapsed" : ""}`}>
@@ -25,7 +48,8 @@ export function App() {
         totalSatellites={satellites.length}
         totalClusters={5}
         selectedCluster={selectedCluster}
-        onSelectCluster={setSelectedCluster}
+        onSelectCluster={handleSelectCluster}
+        onClear={handleClear}
       />
       <div className="scene-container">
         {loading && <div className="overlay-message">Loading satellites...</div>}
@@ -35,13 +59,18 @@ export function App() {
           <pointLight position={[5, 5, 5]} />
           <Earth />
           <SatelliteField satellites={visibleSatellites} onSelect={setSelected} />
-          <OrbitControls />
+          <CameraFocus satellite={searchedSatellite} controlsRef={controlsRef} />
+          <OrbitControls ref={controlsRef} />
         </Canvas>
       </div>
       <InfoPanel
+        key={clearCount}
         satellite={selected}
+        satellites={satellites}
         collapsed={infoPanelCollapsed}
         onToggleCollapse={() => setInfoPanelCollapsed((c) => !c)}
+        onSelectSatellite={handleSearchSelect}
+        onClearSearch={() => setSearchedSatellite(null)}
       />
     </div>
   );

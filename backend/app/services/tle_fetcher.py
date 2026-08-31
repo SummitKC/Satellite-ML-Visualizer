@@ -7,6 +7,7 @@ import httpx
 from app.config import get_settings
 from app.schemas import OrbitalParameters
 from sgp4.api import Satrec, SGP4_ERRORS
+from sgp4.conveniences import sat_epoch_datetime
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +64,7 @@ async def fetch_active_satellites_tle() -> list[tuple[str, str, str]]:
 def parse_orbital_parameters(line1: str, line2: str) -> OrbitalParameters:
     """Derive orbital parameters from a TLE pair using sgp4."""
     earth_radius = 6378.137
+    minutes_per_day = 1440.0
 
     current_satellite = Satrec.twoline2rv(line1, line2)
 
@@ -74,4 +76,7 @@ def parse_orbital_parameters(line1: str, line2: str) -> OrbitalParameters:
         inclination_deg=math.degrees(current_satellite.inclo),
         eccentricity=current_satellite.ecco,
         raan_deg=math.degrees(current_satellite.nodeo),
+        bstar=current_satellite.bstar,
+        mean_motion_rev_per_day=current_satellite.no_kozai * minutes_per_day / (2 * math.pi),
+        epoch=sat_epoch_datetime(current_satellite),
     )

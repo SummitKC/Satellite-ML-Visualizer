@@ -13,6 +13,7 @@ from app.config import get_settings
 from app.schemas import Satellite, SatelliteListResponse
 from app.services.clustering import cluster_satellites
 from app.services.tle_fetcher import fetch_active_satellites_tle, parse_orbital_parameters
+from app.services.tle_history import save_snapshots
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,8 @@ async def refresh_satellite_cache() -> None:
 
     _cache = SatelliteListResponse(satellites=satellites, total=len(satellites))
     logger.info("Refreshed satellite cache: %d satellites", len(satellites))
+
+    save_snapshots(parsed)
 
 
 async def periodic_refresh_loop() -> None:

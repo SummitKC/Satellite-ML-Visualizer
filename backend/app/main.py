@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
 from app.routers import satellites
+from app.services.satcat_fetcher import periodic_satcat_refresh_loop
 from app.services.satellite_cache import periodic_refresh_loop
 
 settings = get_settings()
@@ -15,13 +16,18 @@ settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    task = asyncio.create_task(periodic_refresh_loop())
+    tasks = [
+        asyncio.create_task(periodic_refresh_loop()),
+        asyncio.create_task(periodic_satcat_refresh_loop()),
+    ]
     try:
         yield
     finally:
-        task.cancel()
-        with contextlib.suppress(asyncio.CancelledError):
-            await task
+        for task in tasks:
+            task.cancel()
+        for task in tasks:
+            with contextlib.suppress(asyncio.CancelledError):
+                await task
 
 
 app = FastAPI(title="Satellite ML Visualizer API", lifespan=lifespan)

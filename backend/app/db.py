@@ -36,6 +36,14 @@ CREATE TABLE IF NOT EXISTS satcat (
     rcs_m2 REAL,
     updated_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS backfill_progress (
+    batch_key TEXT PRIMARY KEY,
+    completed_at TEXT NOT NULL,
+    record_count INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_tle_history_epoch ON tle_history (epoch);
 """
 
 

@@ -16,6 +16,13 @@ class Settings(BaseSettings):
     satcat_refresh_interval_seconds: int = 24 * 60 * 60
     db_path: str = "data/satellite_history.sqlite3"
 
+    spacetrack_identity: str = ""
+    spacetrack_password: str = ""
+    # Space-Track's published caps are 30/minute and 300/hour; staying under
+    # them leaves headroom for retries, and exceeding them risks suspension.
+    spacetrack_requests_per_minute: int = 20
+    spacetrack_requests_per_hour: int = 250
+
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]

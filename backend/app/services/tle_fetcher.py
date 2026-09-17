@@ -50,11 +50,17 @@ async def fetch_active_satellites_tle() -> list[tuple[str, str, str]]:
 
         return tle_list
     except httpx.HTTPStatusError as e:
-        logger.error(
-            "Error response %s while requesting %s.",
-            e.response.status_code,
-            e.request.url,
-        )
+        if e.response.status_code == 403:
+            logger.warning(
+                "CelesTrak request throttled (likely on cooldown) for %s; will retry next cycle.",
+                e.request.url,
+            )
+        else:
+            logger.error(
+                "Error response %s while requesting %s.",
+                e.response.status_code,
+                e.request.url,
+            )
         raise
     except httpx.RequestError as e:
         logger.error("An error occurred while requesting %s.", e.request.url)

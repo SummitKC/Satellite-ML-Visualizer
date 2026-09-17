@@ -38,11 +38,17 @@ async def fetch_satcat() -> list[SatCatEntry]:
             response = await client.get(settings.satcat_url)
             response.raise_for_status()
     except httpx.HTTPStatusError as e:
-        logger.error(
-            "Error response %s while requesting %s.",
-            e.response.status_code,
-            e.request.url,
-        )
+        if e.response.status_code == 403:
+            logger.warning(
+                "CelesTrak request throttled (likely on cooldown) for %s; will retry next cycle.",
+                e.request.url,
+            )
+        else:
+            logger.error(
+                "Error response %s while requesting %s.",
+                e.response.status_code,
+                e.request.url,
+            )
         raise
     except httpx.RequestError as e:
         logger.error("An error occurred while requesting %s.", e.request.url)

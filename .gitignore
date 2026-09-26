@@ -55,3 +55,6 @@ htmlcov/
 *.tmp
 docs/
 tle_hourly_data/
+
+# ML model artifacts
+backend/ml/artifacts/

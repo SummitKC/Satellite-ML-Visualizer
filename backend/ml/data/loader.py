@@ -5,7 +5,6 @@ which DB file and schema are in play.
 """
 
 import pandas as pd
-
 from app.db import get_connection
 
 

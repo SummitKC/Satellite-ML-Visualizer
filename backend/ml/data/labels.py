@@ -11,9 +11,15 @@ import pandas as pd
 
 def days_to_decay(sample_time: pd.Series, decay_date: pd.Series) -> pd.Series:
     """Target: days between the sample time and reentry (NaN if not decayed)."""
-    raise NotImplementedError
+
+    if decay_date.isna().any():
+        raise ValueError("days_to_decay only works on decayed objects")
+
+    return (decay_date - sample_time).dt.total_seconds() / 86400
+
 
 
 def event_observed(decay_date: pd.Series) -> pd.Series:
     """True where the object has decayed, False where it is censored."""
-    raise NotImplementedError
+
+    return ~decay_date.isna()

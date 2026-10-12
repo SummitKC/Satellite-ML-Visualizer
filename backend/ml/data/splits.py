@@ -6,7 +6,7 @@ decay date (see TEST_DECAY_START) instead.
 """
 
 import pandas as pd
-from backend.ml.config import TEST_DECAY_START
+from ml.config import TEST_DECAY_START
 from sklearn.model_selection import GroupKFold
 
 

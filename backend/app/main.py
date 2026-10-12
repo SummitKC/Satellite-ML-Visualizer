@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
 from app.routers import satellites
+from app.services.reentry_cache import periodic_reentry_refresh_loop
 from app.services.satcat_fetcher import periodic_satcat_refresh_loop
 from app.services.satellite_cache import periodic_refresh_loop
 
@@ -19,6 +20,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     tasks = [
         asyncio.create_task(periodic_refresh_loop()),
         asyncio.create_task(periodic_satcat_refresh_loop()),
+        asyncio.create_task(periodic_reentry_refresh_loop()),
     ]
     try:
         yield

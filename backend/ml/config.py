@@ -22,6 +22,12 @@ MAX_GAP_LAST_TLE_TO_DECAY_DAYS = 14
 # is a decision, not physics. Excluded from training labels by name prefix.
 CONTROLLED_DEORBIT_NAME_PREFIXES = ("STARLINK", "ONEWEB")
 
+# Every training label is under ~210 days (the backfill window), and the model
+# only saw objects that did reenter, so it gives every LEO object a short
+# lifetime. Below this perigee that is plausible; above it predictions are
+# flagged as low confidence until the model can learn longer lifetimes.
+FORECAST_MAX_PERIGEE_KM = 350.0
+
 # A sample at time t sees only TLEs with epoch <= t, looking back this far.
 LOOKBACK_DAYS = (7, 30, 90)
 

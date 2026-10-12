@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     tle_refresh_interval_seconds: int = 2 * 60 * 60
     satcat_refresh_interval_seconds: int = 24 * 60 * 60
     db_path: str = "data/satellite_history.sqlite3"
+    reentry_model_path: str = "ml/artifacts/gbm.joblib"
 
     spacetrack_identity: str = ""
     spacetrack_password: str = ""

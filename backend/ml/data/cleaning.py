@@ -5,7 +5,12 @@ objects each one drops.
 """
 
 import pandas as pd
-from ml.config import MAX_ECCENTRICITY, MAX_GAP_LAST_TLE_TO_DECAY_DAYS, MAX_PERIGEE_ALT_KM
+from ml.config import (
+    CONTROLLED_DEORBIT_NAME_PREFIXES,
+    MAX_ECCENTRICITY,
+    MAX_GAP_LAST_TLE_TO_DECAY_DAYS,
+    MAX_PERIGEE_ALT_KM,
+)
 
 def drop_post_decay_epochs(df: pd.DataFrame) -> pd.DataFrame:
     """Drop TLEs whose epoch falls after the object's recorded decay date.""" 
@@ -27,7 +32,9 @@ def drop_non_drag_orbits(df: pd.DataFrame) -> pd.DataFrame:
 def drop_controlled_deorbits(df: pd.DataFrame) -> pd.DataFrame:
     """Drop decayed objects whose reentry was commanded rather than drag-driven."""
 
-    return df[df["decay_date"].isna() | (df["decay_type"] != "controlled")]
+    controlled = df["object_name"].str.upper().str.startswith(CONTROLLED_DEORBIT_NAME_PREFIXES, na=False)
+
+    return df[df["decay_date"].isna() | ~controlled]
 
 
 

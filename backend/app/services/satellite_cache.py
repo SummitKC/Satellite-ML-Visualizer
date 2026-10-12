@@ -19,6 +19,10 @@ logger = logging.getLogger(__name__)
 
 _cache: SatelliteListResponse | None = None
 
+# Set once each refresh's snapshots are saved, so reentry scoring
+# (app.services.reentry_cache) re-runs on the fresh history.
+history_updated = asyncio.Event()
+
 
 def get_cached_satellites() -> SatelliteListResponse | None:
     return _cache
@@ -57,6 +61,7 @@ async def refresh_satellite_cache() -> None:
     logger.info("Refreshed satellite cache: %d satellites", len(satellites))
 
     save_snapshots(parsed)
+    history_updated.set()
 
 
 async def periodic_refresh_loop() -> None:

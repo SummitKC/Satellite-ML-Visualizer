@@ -1,4 +1,5 @@
 import datetime as dt
+from typing import Literal
 
 from pydantic import BaseModel
 
@@ -25,6 +26,14 @@ class Satellite(BaseModel):
 class SatelliteListResponse(BaseModel):
     satellites: list[Satellite]
     total: int
+
+
+class ReentryPrediction(BaseModel):
+    norad_id: int
+    status: Literal["forecast", "controlled", "too_high", "not_modelled"]
+    tle_epoch: dt.datetime | None = None
+    predicted_decay_date: dt.datetime | None = None
+    error_days: float | None = None
 
 
 class SatCatEntry(BaseModel):

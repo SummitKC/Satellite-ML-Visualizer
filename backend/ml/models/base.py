@@ -3,6 +3,7 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 
+import joblib
 import pandas as pd
 
 
@@ -17,8 +18,14 @@ class DeorbitModel(ABC):
         """Predicted days until reentry, one per row."""
 
     def save(self, path: Path) -> None:
-        raise NotImplementedError
+        path.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(self, path)
 
     @classmethod
     def load(cls, path: Path) -> "DeorbitModel":
-        raise NotImplementedError
+        # joblib unpickles arbitrary code, so only load artifacts this project wrote.
+        model = joblib.load(path)
+        if not isinstance(model, cls):
+            raise TypeError(f"{path} holds a {type(model).__name__}, not a {cls.__name__}")
+
+        return model

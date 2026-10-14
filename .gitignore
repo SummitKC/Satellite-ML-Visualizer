@@ -58,3 +58,5 @@ tle_hourly_data/
 
 # ML model artifacts
 backend/ml/artifacts/
+cloudflared.deb
+backend/data/*.db

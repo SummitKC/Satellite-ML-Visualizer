@@ -11,6 +11,7 @@ import csv
 import datetime as dt
 import io
 import logging
+from pathlib import Path
 
 import httpx
 
@@ -29,8 +30,7 @@ def _parse_float(value: str) -> float | None:
     return float(value) if value else None
 
 
-async def fetch_satcat() -> list[SatCatEntry]:
-    """Fetch and parse the current SATCAT CSV from Celestrak."""
+async def _download_satcat_text() -> str:
     settings = get_settings()
 
     try:
@@ -40,7 +40,7 @@ async def fetch_satcat() -> list[SatCatEntry]:
     except httpx.HTTPStatusError as e:
         if e.response.status_code == 403:
             logger.warning(
-                "CelesTrak request throttled (likely on cooldown) for %s; will retry next cycle.",
+                "CelesTrak request throttled (likely on cooldown) for %s.",
                 e.request.url,
             )
         else:
@@ -54,8 +54,29 @@ async def fetch_satcat() -> list[SatCatEntry]:
         logger.error("An error occurred while requesting %s.", e.request.url)
         raise
 
+    return response.text
+
+
+async def fetch_satcat() -> list[SatCatEntry]:
+    """Fetch and parse SATCAT from Celestrak, falling back to the local CSV on error."""
+    settings = get_settings()
+
+    try:
+        text = await _download_satcat_text()
+    except httpx.HTTPError:
+        fallback = Path(settings.satcat_fallback_path)
+        if not fallback.is_file():
+            logger.error("No local SATCAT fallback at %s", fallback)
+            raise
+        logger.warning("Using local SATCAT fallback %s", fallback)
+        text = fallback.read_text(encoding="utf-8")
+
+    return _parse_satcat(text)
+
+
+def _parse_satcat(text: str) -> list[SatCatEntry]:
     entries = []
-    for row in csv.DictReader(io.StringIO(response.text)):
+    for row in csv.DictReader(io.StringIO(text)):
         norad_id = row.get("NORAD_CAT_ID")
         if not norad_id:
             continue

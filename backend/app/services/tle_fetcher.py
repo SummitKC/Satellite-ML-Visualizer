@@ -5,6 +5,7 @@ import math
 
 import httpx
 from app.config import get_settings
+from app.db import get_connection
 from app.schemas import OrbitalParameters
 from sgp4.api import Satrec, SGP4_ERRORS
 from sgp4.conveniences import sat_epoch_datetime
@@ -61,10 +62,33 @@ async def fetch_active_satellites_tle() -> list[tuple[str, str, str]]:
                 e.response.status_code,
                 e.request.url,
             )
-        raise
+        return _load_tles_from_history()
     except httpx.RequestError as e:
         logger.error("An error occurred while requesting %s.", e.request.url)
-        raise
+        return _load_tles_from_history()
+
+
+def _load_tles_from_history(max_age_days: int = 14) -> list[tuple[str, str, str]]:
+    """Latest stored TLE per recently-updated satellite, used when CelesTrak fails."""
+    connection = get_connection()
+    try:
+        rows = connection.execute(
+            """
+            SELECT COALESCE(s.object_name, h.norad_id), h.tle_line1, h.tle_line2
+            FROM tle_history h
+            LEFT JOIN satcat s ON s.norad_id = h.norad_id
+            WHERE h.epoch = (SELECT MAX(epoch) FROM tle_history WHERE norad_id = h.norad_id)
+              AND h.epoch >= datetime((SELECT MAX(epoch) FROM tle_history), ?)
+            """,
+            (f"-{max_age_days} days",),
+        ).fetchall()
+    finally:
+        connection.close()
+
+    if not rows:
+        raise RuntimeError("CelesTrak TLE request failed and no stored TLE history exists")
+    logger.warning("Using %d TLEs from stored history as fallback", len(rows))
+    return [(str(name), line1, line2) for name, line1, line2 in rows]
 
 
 def parse_orbital_parameters(line1: str, line2: str) -> OrbitalParameters:

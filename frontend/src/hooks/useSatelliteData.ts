@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Satellite } from "../types/satellite";
 import { mockSatellites } from "../mocks/mockSatellites";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api";
+import { API_BASE_URL } from "../constants/api";
 
 // TODO: flip back to false once the backend /satellites endpoint is running.
 const USE_MOCK_DATA = false;

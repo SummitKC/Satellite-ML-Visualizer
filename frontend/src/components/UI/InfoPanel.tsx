@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Satellite } from "../../types/satellite";
+import { ReentryForecast } from "./ReentryForecast";
 
 interface InfoPanelProps {
   satellite: Satellite | null;
@@ -89,6 +90,7 @@ export function InfoPanel({
           <p>NORAD ID: {satellite.norad_id}</p>
           <p>Altitude: ~{altitudeKm!.toFixed(0)} km</p>
           <p>Cluster: {satellite.cluster_id ?? "unclassified"}</p>
+          <ReentryForecast noradId={satellite.norad_id} />
         </>
       ) : (
         <p className="info-panel-empty">Select a satellite in the scene or search above.</p>

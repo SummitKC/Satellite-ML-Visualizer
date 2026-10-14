@@ -174,6 +174,79 @@ body,
   font-size: 0.85rem;
 }
 
+.reentry {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #1c2530;
+}
+
+.reentry h3 {
+  margin: 0 0 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a8b3bd;
+}
+
+.reentry-tier {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+}
+
+.reentry-tier.imminent {
+  background: rgba(230, 57, 70, 0.18);
+  color: #ff7b85;
+}
+
+.reentry-tier.weeks {
+  background: rgba(244, 162, 97, 0.18);
+  color: #f4a261;
+}
+
+.reentry-tier.months {
+  background: rgba(69, 123, 157, 0.25);
+  color: #8ecae6;
+}
+
+.reentry-tier.low-confidence {
+  background: rgba(168, 179, 189, 0.15);
+  color: #a8b3bd;
+}
+
+.reentry-disclaimer {
+  margin: 0.75rem 0 0;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #e3c9a8;
+  background: rgba(244, 162, 97, 0.08);
+  border-left: 2px solid #f4a261;
+  border-radius: 0 3px 3px 0;
+}
+
+.reentry-window {
+  margin: 0.5rem 0 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.reentry-countdown {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.reentry-note {
+  margin: 0.6rem 0 0;
+  font-size: 0.75rem;
+  color: #8b97a3;
+}
+
 .legend {
   list-style: none;
   padding: 0;

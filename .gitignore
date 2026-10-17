@@ -24,6 +24,7 @@ build/
 dist/
 *.egg-info/
 .eggs/
+*.tsbuildinfo
 
 # Editors / IDEs
 .vscode/

@@ -8,6 +8,5 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:8000",
     },
-    allowedHosts: ["millions-mandate-oil-republic.trycloudflare.com", "https://millions-mandate-oil-republic.trycloudflare.com"],
   },
 });

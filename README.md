@@ -138,10 +138,9 @@ npm run dev
 
 The app runs at `http://localhost:5173`.
 
-- **Textures are not committed** (`.gitignore` excludes images). Before
-  running, add an equirectangular Earth day map at
-  `frontend/src/textures/1_earth_8k.jpg` and a night-lights map at
-  `frontend/src/textures/5_night_8k.jpg`.
+- **Textures** (`frontend/src/textures/`): the 8k day and night maps load on
+  desktop and the 4k versions on mobile. These four are the only images
+  committed; `.gitignore` excludes the rest.
 - If the API isn't at `http://localhost:8000/api`, set `VITE_API_BASE_URL` in
   `frontend/.env`.
 

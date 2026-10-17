@@ -1,1 +1,0 @@
-{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/Scene/Earth.tsx","./src/components/Scene/SatelliteField.tsx","./src/components/UI/InfoPanel.tsx","./src/components/UI/Sidebar.tsx","./src/hooks/useSatelliteData.ts","./src/mocks/mockSatellites.ts","./src/types/satellite.ts"],"version":"5.9.3"}

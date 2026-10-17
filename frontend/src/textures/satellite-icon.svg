@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 64 64">
+  <!-- Grayscale on purpose: the shader uses the alpha as the icon's shape and the
+       gray level as shading (black = outline, white = brightest) on top of the
+       satellite's cluster color gradient -->
+  <g transform="rotate(-45 32 32)" stroke="#000" stroke-width="2.5" stroke-linejoin="round">
+    <!-- Boom holding the solar panels -->
+    <rect x="20" y="30" width="24" height="4" fill="#8c8c8c" />
+    <!-- Solar panels, with a lighter middle cell -->
+    <rect x="1" y="24" width="20" height="16" rx="1" fill="#5c5c5c" />
+    <rect x="43" y="24" width="20" height="16" rx="1" fill="#5c5c5c" />
+    <rect x="7.7" y="24" width="6.6" height="16" fill="#8c8c8c" stroke-width="1.5" />
+    <rect x="49.7" y="24" width="6.6" height="16" fill="#8c8c8c" stroke-width="1.5" />
+    <!-- Body, with a band where the boom attaches -->
+    <rect x="25" y="14" width="14" height="36" rx="3" fill="#e6e6e6" />
+    <rect x="25" y="28" width="14" height="8" fill="#a6a6a6" />
+    <!-- Engine nozzle -->
+    <path d="M28 50 h8 l2 6 h-12 z" fill="#8c8c8c" />
+    <!-- Dish antenna on a short mast -->
+    <path d="M32 9 V3" fill="none" />
+    <circle cx="32" cy="3" r="1.5" fill="#e6e6e6" />
+    <path d="M20 9 A12 6 0 0 0 44 9 Z" fill="#cccccc" />
+  </g>
+</svg>

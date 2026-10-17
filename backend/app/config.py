@@ -10,7 +10,12 @@ class Settings(BaseSettings):
         "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle"
     )
     satcat_url: str = "https://celestrak.org/pub/satcat.csv"
-    cors_origins: str = "http://localhost:5173"
+    satcat_fallback_path: str = "data/satcat.csv"
+    cors_origins: str = (
+        "http://localhost:5173,"
+        "millions-mandate-oil-republic.trycloudflare.com,"
+        "https://millions-mandate-oil-republic.trycloudflare.com,"
+    )
     cluster_count: int = 5
     tle_refresh_interval_seconds: int = 2 * 60 * 60
     satcat_refresh_interval_seconds: int = 24 * 60 * 60

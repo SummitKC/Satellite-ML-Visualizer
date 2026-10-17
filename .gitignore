@@ -45,6 +45,12 @@ htmlcov/
 *.jpeg
 *.jpg
 
+# Exclude Image files
+!frontend/src/textures/1_earth_8k.jpg
+!frontend/src/textures/5_night_8k.jpg
+!frontend/src/textures/1_earth_4k.jpg
+!frontend/src/textures/5_night_4k.jpg
+
 # Other caches
 *.log
 *.sqlite3
@@ -57,6 +63,12 @@ docs/
 tle_hourly_data/
 
 # ML model artifacts
-backend/ml/artifacts/
 cloudflared.deb
 backend/data/*.db
+backend/data/satcat.csv
+
+
+# Exclude ML model artifacts (only the model and its error report are loaded at runtime)
+backend/ml/artifacts/*
+!backend/ml/artifacts/gbm.joblib
+!backend/ml/artifacts/gbm_metrics.json

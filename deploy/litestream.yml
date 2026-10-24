@@ -1,0 +1,9 @@
+dbs:
+  - path: /data/satellite_history.sqlite3
+    replica:
+      type: s3
+      bucket: satviz-backups
+      path: satellite_history
+      endpoint: https://yzcz0qcpeeor.compat.objectstorage.ca-toronto-1.oci.customer-oci.com
+      region: ca-toronto-1
+      force-path-style: true

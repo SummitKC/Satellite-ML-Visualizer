@@ -1,0 +1,40 @@
+services:
+  backend:
+    image: ghcr.io/summitkc/satviz-backend:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    env_file: backend.env
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  web:
+    image: ghcr.io/summitkc/satviz-web:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    environment:
+      DOMAIN: satvizml.me
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+
+  litestream:
+    image: litestream/litestream:0.5.17
+    restart: unless-stopped
+    user: "1000:1000"
+    command: replicate
+    env_file: litestream.env
+    volumes:
+      - ./data:/data
+      - ./litestream.yml:/etc/litestream.yml:ro
+
+volumes:
+  caddy_data:
+  caddy_config:

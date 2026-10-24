@@ -1,0 +1,8 @@
+.venv
+.env
+data
+*.log
+**/__pycache__
+ml/artifacts/*
+!ml/artifacts/gbm.joblib
+!ml/artifacts/gbm_metrics.json

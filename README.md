@@ -267,3 +267,6 @@ roadmap below covers the fix.
 - [Space-Track.org](https://www.space-track.org): historical TLEs
   (`gp_history`). Requires a free account; follow its usage policy and rate
   limits.
+- Earth textures: Natural Earth III by Tom Patterson,
+  [shadedrelief.com](https://www.shadedrelief.com/natural3/) (public domain).
+  The 4k versions are downscaled from the 8k originals.

@@ -101,7 +101,7 @@ frontend/
     components/UI/           TopBar, InfoPanel, ReentryForecast
     hooks/                   useSatelliteData, useReentryPrediction
     utils/satellitePosition.ts   SGP4 propagation into scene coordinates
-    textures/                Earth day/night maps (not committed; see below)
+    textures/                Earth day/night maps
 ```
 
 ## Getting started

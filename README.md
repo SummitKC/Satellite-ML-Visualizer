@@ -5,7 +5,10 @@ catalog. Satellites are grouped into orbital regimes by ML clustering, and a
 reentry (deorbit) model, trained on years of historical orbit data, forecasts
 when low satellites will come down.
 
-NOTE:  
+**Note on how this was built:** I architected both the frontend, machine learning and the
+backend. The frontend (excluding the Three.js parts) was mostly written with Claude.
+On the backend, and on the machine learning parts, Claude wrote the skeleton functions; I
+did the implementation, with some edits (after completion) and fine-tuning from Claude.
 
 ## Features
 

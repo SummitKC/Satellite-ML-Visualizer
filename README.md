@@ -10,6 +10,21 @@ backend. The frontend (excluding the Three.js parts) was mostly written with Cla
 On the backend, and on the machine learning parts, Claude wrote the skeleton functions; I
 did the implementation, with some edits (after completion) and fine-tuning from Claude.
 
+**Note on upcoming changes** - This project is not done yet, current ideas for new features: 
+
+- Add a currently flying over function on the popup bar
+- Add an AI query about selected satellite (Maybe) better to use open source data like 
+ - Data from The The [Space Devs](https://thespacedevs.com/about) API, [Where is the ISS](https://wheretheiss.at/)
+- Add Launch Sites in the map 
+- On the legend use ML to identify orbit name (Maybe)
+- Upcoming launches 
+- Add "flying over your location next at dd:hh:mm:;ss"  
+- Add a trejectory line visualization  
+- Sync and lock day/night texture to current time (Maybe, I perfer the current function)
+- Add a Zoom Lock (Zooming in too far)
+- Change clustering from K-meam/neartes neighbors to a hard altitude cut off (or upgrade the algo)
+- Upgrade the model amd or add a SPG error correction model to learn TensorFlow or Pytorch 
+
 ## Features
 
 **Globe**

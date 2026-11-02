@@ -13,7 +13,7 @@ COPY app ./app
 COPY ml ./ml
 
 # Same UID as the server's ubuntu user, so files in the data volume stay editable
-RUN useradd --uid 1000 --no-create-home appuser
+RUN useradd --uid 1001 --no-create-home appuser
 USER appuser
 
 EXPOSE 8000

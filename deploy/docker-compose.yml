@@ -28,7 +28,7 @@ services:
   litestream:
     image: litestream/litestream:0.5.17
     restart: unless-stopped
-    user: "1000:1000"
+    user: "1001:1001"
     command: replicate
     env_file: litestream.env
     volumes:
@@ -38,3 +38,5 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+
+  

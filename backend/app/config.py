@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     satcat_fallback_path: str = "data/satcat.csv"
     cors_origins: str = "http://localhost:5173"
     cluster_count: int = 5
-    tle_refresh_interval_seconds: int = 2 * 60 * 60
+    tle_refresh_interval_seconds: int = 4 * 60 * 60
     satcat_refresh_interval_seconds: int = 24 * 60 * 60
     db_path: str = "data/satellite_history.sqlite3"
     reentry_model_path: str = "ml/artifacts/gbm.joblib"

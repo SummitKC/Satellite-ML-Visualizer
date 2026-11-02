@@ -64,7 +64,9 @@ async def fetch_active_satellites_tle() -> list[tuple[str, str, str]]:
             )
         return _load_tles_from_history()
     except httpx.RequestError as e:
-        logger.error("An error occurred while requesting %s.", e.request.url)
+        # tells a firewall block (ConnectTimeout) apart from
+        # ConectError; str(e) is sometimes empty
+        logger.error("Request to %s failed: %s: %s", e.request.url, type(e).__name__, e)
         return _load_tles_from_history()
 
 

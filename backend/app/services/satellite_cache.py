@@ -65,14 +65,20 @@ async def refresh_satellite_cache() -> None:
 
 
 async def periodic_refresh_loop() -> None:
-    """Refresh the cache on a timer, retrying quickly on failure."""
+    """Refresh the cache on a timer.
+
+    A failed refresh also waits the full interval now, since the data is mostly stale and does not need constant updates, 
+    ps celstrack blocks my IP if I hit it too often, and blocks it for longer every time I hit. 
+    """
     settings = get_settings()
     while True:
         try:
             await refresh_satellite_cache()
-            await asyncio.sleep(settings.tle_refresh_interval_seconds)
         except asyncio.CancelledError:
             raise
         except Exception:
-            logger.exception("Failed to refresh satellite cache; retrying in 60s")
-            await asyncio.sleep(60)
+            logger.exception(
+                "Failed to refresh satellite cache; retrying in %ds",
+                settings.tle_refresh_interval_seconds,
+            )
+        await asyncio.sleep(settings.tle_refresh_interval_seconds)

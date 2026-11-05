@@ -1,5 +1,7 @@
 # Satellite ML Visualizer
 
+[LIVE DEMO](https://satvizml.me/)
+
 An interactive 3D tracker for the ~14,000 satellites in CelesTrak's active
 catalog. Satellites are grouped into orbital regimes by ML clustering, and a
 reentry (deorbit) model, trained on years of historical orbit data, forecasts
